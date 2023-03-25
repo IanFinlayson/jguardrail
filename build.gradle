@@ -1,0 +1,49 @@
+plugins {
+    id "java"
+    id "application"
+    id "antlr"
+}
+
+group = 'com.github.gregwhitaker'
+version = '0.1.0'
+sourceCompatibility = 1.8
+mainClassName = 'example.antlr.Main'
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    antlr 'org.antlr:antlr4:4.12.0'
+    implementation 'org.antlr:antlr4-runtime:4.12.0'
+}
+
+// Antlr
+generateGrammarSource {
+    maxHeapSize = "64m"
+    arguments += [ "-visitor", 
+                   "-long-messages",
+                   "-package", "example.antlr" ]
+    outputDirectory = file("${projectDir}/src/generated/java")
+}
+
+clean {
+    delete file("${projectDir}/src/generated")
+}
+
+sourceSets {
+    generated{
+        java.srcDir "${projectDir}/src/generated/java/"
+    }
+
+    main {
+        java.srcDirs += "${projectDir}/src/generated/java/"
+    }
+}
+
+
+// make it runnable
+application {
+    mainClassName = 'example.antlr.Main'
+}
+

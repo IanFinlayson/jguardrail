@@ -1,0 +1,13 @@
+# general java stuff
+*.class
+*.jar
+*.zip
+*.tar.gz
+
+# antlr stuff
+src/generated/**
+
+# gradle stuff
+.gradle
+build/
+
