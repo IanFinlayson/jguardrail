@@ -1,4 +1,4 @@
-package example.antlr;
+package net.ianfinlayson.ginseng;
 
 
 public class MyListener extends ExprBaseListener {

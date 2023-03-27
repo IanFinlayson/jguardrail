@@ -4,10 +4,10 @@ plugins {
     id "antlr"
 }
 
-group = 'com.github.gregwhitaker'
+group = 'net.ianfinlayson'
 version = '0.1.0'
 sourceCompatibility = 1.8
-mainClassName = 'example.antlr.Main'
+mainClassName = 'net.ianfinlayson.ginseng.Main'
 
 repositories {
     mavenCentral()
@@ -23,7 +23,7 @@ generateGrammarSource {
     maxHeapSize = "64m"
     arguments += [ "-visitor", 
                    "-long-messages",
-                   "-package", "example.antlr" ]
+                   "-package", "net.ianfinlayson.ginseng" ]
     outputDirectory = file("${projectDir}/src/generated/java")
 }
 
@@ -44,6 +44,6 @@ sourceSets {
 
 // make it runnable
 application {
-    mainClassName = 'example.antlr.Main'
+    mainClassName = 'net.ianfinlayson.ginseng.Main'
 }
 

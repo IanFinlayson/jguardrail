@@ -1,4 +1,4 @@
-package example.antlr;
+package net.ianfinlayson.ginseng;
 
 import org.antlr.v4.runtime.CharStreams;
 import org.antlr.v4.runtime.CommonTokenStream;
