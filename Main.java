@@ -6,7 +6,7 @@ import org.antlr.v4.runtime.tree.ParseTreeWalker;
 
 public class Main {
 
-    public static void main(String... args) {
+    public static void main(String[] args) {
         // get input file
         if (args.length != 1) {
             System.out.println("Please pass the Java file as input.");
