@@ -1,13 +1,8 @@
 # general java stuff
 *.class
-*.jar
-*.zip
-*.tar.gz
-
-# antlr stuff
-src/generated/**
-
-# gradle stuff
-.gradle
-build/
-
+*.interp
+*.tokens
+JavaLexer.java
+JavaParser.java
+JavaParserBaseVisitor.java
+JavaParserVisitor.java
