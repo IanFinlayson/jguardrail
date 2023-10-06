@@ -1,36 +1,44 @@
 import java.util.List;
 
 public class GinsengVisitor extends JavaParserBaseVisitor<Double> {
-    
+
 
     // returns true if a break was found
     public boolean checkForBreak(JavaParser.StatementContext stmt) {
-        // if there is no statement, it could be a declaration or sth
         if (stmt == null) {
+            // if there is no statement, it could be a declaration or sth else
             return false;
-        }
-        if (stmt.BREAK() != null) {
+        } else if (stmt.BREAK() != null) {
+            // we found a break!
             return true;
-        } else {
-            return false;
+        } else if (stmt.block() != null) {
+            // it's a nested one, such as arises from { } in the case. recurse
+            for (JavaParser.BlockStatementContext block : stmt.block().blockStatement()) {
+                if (checkForBreak(block.statement())) {
+                    return true;
+                }
+            }
         }
+        
+        return false;
     }
 
 	@Override
     public Double visitSwitchBlockStatementGroup(JavaParser.SwitchBlockStatementGroupContext ctx) {
-        System.out.println("Saw a switch block statement group!");
-		
-		for (JavaParser.BlockStatementContext stmt: ctx.blockStatement()) {
-            // TODO what if it's in a nested {}??
+		boolean break_found = false;
+		for (JavaParser.BlockStatementContext stmt : ctx.blockStatement()) {
             if (checkForBreak(stmt.statement())) {
-                System.out.println("\tYES! a break!");
-            } else {
-                System.out.println("\t...");
+                break_found = true;
             }
         }
-        
+
+        if (!break_found) {
+            System.out.println("Switch case on line " + ctx.getStart().getLine() + " missing break.");
+        }
+
         return visitChildren(ctx);
     }
 
+// TODO don't do this for the last case!!!
 
 }

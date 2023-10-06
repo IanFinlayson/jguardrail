@@ -11,10 +11,13 @@ public class Test1 {
                 break;
             case 1:
                 System.out.println("one");
-                {System.out.println("a"); System.out.println("b");System.out.println("c");}
-            case 2:
+                {
+                    System.out.println("a"); System.out.println("b");System.out.println("c");
+                    break;
+                }
+            case 2: {
                 System.out.println("two");
-                break;
+            }
             default:
                 System.out.println("rather more");
         }
