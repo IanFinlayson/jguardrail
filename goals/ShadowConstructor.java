@@ -1,4 +1,4 @@
-// common mistake here is shadowing a variable with consdtructor parameter
+// common mistake here is shadowing a variable with constructor parameter
 
 class Student {
     private String name;
