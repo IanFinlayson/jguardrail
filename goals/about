@@ -1,0 +1,3 @@
+- None of these produce warnings with normal javac
+- with -Xlint:all ONLY SwitchCase.java does
+
