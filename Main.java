@@ -27,9 +27,13 @@ public class Main {
         // do the parsing
         ParseTree tree = parser.compilationUnit();
 
-        // visit the tree to execute it
-        GinsengVisitor visitor = new GinsengVisitor();
-        visitor.visit(tree);
+        // we make a list of all the checks we have
+        JavaParserBaseVisitor checkers [] = {new SwitchCheckVisitor()};
+
+        // run all the checkers
+        for (JavaParserBaseVisitor checker : checkers) {
+            checker.visit(tree);
+        }
     }
 }
 
