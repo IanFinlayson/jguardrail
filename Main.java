@@ -28,7 +28,10 @@ public class Main {
         ParseTree tree = parser.compilationUnit();
 
         // we make a list of all the checks we have
-        JavaParserBaseVisitor checkers [] = {new SwitchCheckVisitor()};
+        JavaParserBaseVisitor checkers [] = {
+            new SwitchCheckVisitor(),
+            new StringEqualsVisitor()
+        };
 
         // run all the checkers
         for (JavaParserBaseVisitor checker : checkers) {
