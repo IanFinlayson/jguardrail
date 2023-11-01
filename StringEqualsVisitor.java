@@ -18,7 +18,6 @@ public class StringEqualsVisitor extends JavaParserBaseVisitor<Void> {
             }
         }
         
-        // recurse (in order to get switches that may be nested themselves)
         return visitChildren(expr);
     }
 }

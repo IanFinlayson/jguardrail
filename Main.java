@@ -30,7 +30,8 @@ public class Main {
         // we make a list of all the checks we have
         JavaParserBaseVisitor checkers [] = {
             new SwitchCheckVisitor(),
-            new StringEqualsVisitor()
+            new StringEqualsVisitor(),
+            new IntDivideVisitor()
         };
 
         // run all the checkers
