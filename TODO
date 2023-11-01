@@ -1,0 +1,13 @@
+ - Make a nicer warning printing system
+
+Errors left to check:
+    InstVarInit.java
+    ShadowConstructor.java
+    ShadowLocal.java
+    VoidConstructors.java
+    
+Errors done:
+    IntDivide.java
+    StringEquals.java
+    SwitchCase.java
+
