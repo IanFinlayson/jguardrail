@@ -31,7 +31,8 @@ public class Main {
         JavaParserBaseVisitor checkers [] = {
             new SwitchCheckVisitor(),
             new StringEqualsVisitor(),
-            new IntDivideVisitor()
+            new IntDivideVisitor(),
+            new VoidConstructorVisitor()
         };
 
         // run all the checkers
