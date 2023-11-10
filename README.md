@@ -18,6 +18,7 @@ The ones currently caught by jwarn are:
    set an instance variable to a constructor parameter with the same name.
 
 We plan to make jwarn also catch the following:
+
 7. Not initializing instance variables in their declaration nor in a
    constructor.
 
