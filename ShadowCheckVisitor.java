@@ -8,7 +8,6 @@ public class ShadowCheckVisitor extends JavaParserBaseVisitor<Void> {
 
     private ArrayList<String> instances = new ArrayList<>();
 
-
     // this is for part 1, a field being declared
     @Override
     public Void visitFieldDeclaration(JavaParser.FieldDeclarationContext decl) {

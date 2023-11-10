@@ -11,7 +11,7 @@ public class SelfSetVisitor extends JavaParserBaseVisitor<Void> {
             // they weren't just ids, and we can bail
             try {
                 String lhs = expr.expression(0).primary().identifier().IDENTIFIER().getText();
-                String rhs = expr.expression(0).primary().identifier().IDENTIFIER().getText();
+                String rhs = expr.expression(1).primary().identifier().IDENTIFIER().getText();
                 
                 if (lhs.equals(rhs)) {
                     Warnings.warn("setting a variable to itself has no effect", expr.getStart().getLine());
