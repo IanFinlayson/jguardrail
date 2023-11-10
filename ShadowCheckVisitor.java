@@ -7,6 +7,17 @@ public class ShadowCheckVisitor extends JavaParserBaseVisitor<Void> {
     // 2. all local variables to make sure they aren't named the same (shadowing)
 
     private ArrayList<String> instances = new ArrayList<>();
+    
+    @Override
+    public Void visitClassDeclaration(JavaParser.ClassDeclarationContext theClass) {
+        // before entering the class, we clear the list of instance vars
+        // this way if there are multiple classes in one file, they don't
+        // all share inst vars
+
+        instances.clear();
+        visit(theClass.classBody());
+        return null;
+    }
 
     // this is for part 1, a field being declared
     @Override
