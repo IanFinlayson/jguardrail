@@ -33,7 +33,7 @@ public class SwitchCheckVisitor extends JavaParserBaseVisitor<Void> {
         }
 
         if (!break_found) {
-            System.out.println("Switch case on line " + ctx.getStart().getLine() + " missing break.");
+            Warnings.warn("switch case missing break", ctx.getStart().getLine());
         }
     }
 

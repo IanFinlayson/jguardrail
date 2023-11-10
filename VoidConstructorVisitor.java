@@ -25,7 +25,7 @@ public class VoidConstructorVisitor extends JavaParserBaseVisitor<Void> {
         String name = method.identifier().IDENTIFIER().getText();
 
         if (name.equals(className.peek())) {
-            System.out.println("Warning: regular method with name matching class name on line: " + method.getStart().getLine());
+            Warnings.warn("regular method with name matching class name", method.getStart().getLine());
         }
 
         return null;

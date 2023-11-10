@@ -19,9 +19,9 @@ public class IntDivideVisitor extends JavaParserBaseVisitor<Void> {
                 // otherwise, if it doesn't divide clean (like 9/5) tell them that too
                 // if it divides evenly I still don't know why you're doing this but carry on
                 if (lhs < rhs) {
-                    System.out.println("Warning: division between integer constants produces 0 value on line: " + expr.getStart().getLine());
+                    Warnings.warn("division between integer constants produces 0 value", expr.getStart().getLine());
                 } else if ((lhs % rhs) != 0) {
-                    System.out.println("Waning: division between integer constants truncates value on line: " + expr.getStart().getLine());
+                    Warnings.warn("division between integer constants truncates value", expr.getStart().getLine());
                 }
             } catch (NullPointerException e) {
                 // not the droids we're looking for...
