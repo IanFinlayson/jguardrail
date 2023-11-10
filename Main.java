@@ -34,7 +34,8 @@ public class Main {
             new StringEqualsVisitor(),
             new IntDivideVisitor(),
             new VoidConstructorVisitor(),
-            new ShadowCheckVisitor()
+            new ShadowCheckVisitor(),
+            new SelfSetVisitor()
         };
 
         // run all the checkers

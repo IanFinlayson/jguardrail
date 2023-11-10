@@ -1,4 +1,5 @@
-// common mistake here is shadowing a variable with constructor parameter
+// common mistake here is setting parameter to itself thinking that
+// you are setting the instance variable being shadowed
 
 class Student {
     private String name;
@@ -12,7 +13,7 @@ class Student {
     }
 }
 
-public class ShadowConstructor {
+public class SelfSet {
     public static void main(String args[]) {
         Student s1 = new Student("Bob Jones");
         s1.report();
