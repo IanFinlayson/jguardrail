@@ -1,5 +1,4 @@
  - Touch up error message look (w/ line text?)
- - make it work on list of files instead of just one
 
 Errors left to check:
     InstVarInit.java
