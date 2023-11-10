@@ -1,13 +1,14 @@
- - Make a nicer warning printing system
+ - Touch up error message look (w/ line text?)
+ - make it work on list of files instead of just one
 
 Errors left to check:
     InstVarInit.java
     ShadowConstructor.java
-    ShadowLocal.java
-    VoidConstructors.java
     
 Errors done:
     IntDivide.java
+    ShadowLocal.java
     StringEquals.java
     SwitchCase.java
+    VoidConstructors.java
 

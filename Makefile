@@ -1,6 +1,8 @@
 # actual source files
 GRMRS := JavaLexer.g4 JavaParser.g4
-SRCS := Main.java IntDivideVisitor.java StringEqualsVisitor.java SwitchCheckVisitor.java VoidConstructorVisitor.java
+SRCS := Main.java IntDivideVisitor.java StringEqualsVisitor.java \
+		SwitchCheckVisitor.java VoidConstructorVisitor.java Warnings.java \
+		ShadowCheckVisitor.java
 
 # generated code files from antlr
 GEN := JavaLexer.java JavaParser.java JavaParserVisitor.java JavaParserBaseVisitor.java

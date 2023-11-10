@@ -17,6 +17,7 @@ public class Main {
         JavaLexer lexer = null;
         try {
             lexer = new JavaLexer(CharStreams.fromFileName(args[0]));
+            Warnings.setFileName(args[0]);
         } catch (Exception e) {
             System.out.println("Could not open '" + args[0] + "' for reading.");
             return;
@@ -32,7 +33,8 @@ public class Main {
             new SwitchCheckVisitor(),
             new StringEqualsVisitor(),
             new IntDivideVisitor(),
-            new VoidConstructorVisitor()
+            new VoidConstructorVisitor(),
+            new ShadowCheckVisitor()
         };
 
         // run all the checkers
