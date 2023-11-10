@@ -2,12 +2,12 @@ import java.util.List;
 
 public class SwitchCheckVisitor extends JavaParserBaseVisitor<Void> {
 
-    // returns true if a break can be found within a (possibly nested) statement
+    // returns true if a break (or return) can be found within a (possibly nested) statement
     public boolean checkForBreak(JavaParser.StatementContext stmt) {
         if (stmt == null) {
             // if there is no statement, it could be a declaration or sth else
             return false;
-        } else if (stmt.BREAK() != null) {
+        } else if ((stmt.BREAK() != null) || (stmt.RETURN() != null)) {
             // we found a break!
             return true;
         } else if (stmt.block() != null) {
