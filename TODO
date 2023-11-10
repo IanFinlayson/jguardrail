@@ -3,12 +3,4 @@
 
 Errors left to check:
     InstVarInit.java
-    ShadowConstructor.java
     
-Errors done:
-    IntDivide.java
-    ShadowLocal.java
-    StringEquals.java
-    SwitchCase.java
-    VoidConstructors.java
-

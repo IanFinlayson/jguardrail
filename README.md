@@ -14,12 +14,12 @@ The ones currently caught by jwarn are:
 4. Creating a method with the same name as the class -- this comes from
    accidentally putting a return type in what is meant to be a constructor.
 5. Shadowing an instance variable by making a local with the same name.
+6. Setting a variable to itself.  This is usually done when trying to
+   set an instance variable to a constructor parameter with the same name.
 
 We plan to make jwarn also catch the following:
-6. Not initializing instance variables in their declaration nor in a
+7. Not initializing instance variables in their declaration nor in a
    constructor.
-7. Setting a variable to itself.  This is usually done when trying to
-   set an instance variable to a constructor parameter with the same name.
 
 None of these mistakes are caught by the javac compiler.  If we tell javac to
 give us more warnings by passing "-Xlint:all", then it does give a warning for
