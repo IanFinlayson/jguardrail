@@ -27,6 +27,15 @@ public class InstVarInitVisitor extends JavaParserBaseVisitor<Void> {
     // could be that constructors come before inst. vars
     private int pass = 1;
 
+    // mark a variable as being set to sth in a constructor
+    private void markWrite(String name) {
+        for (int i = 0; i < uninitializedVars.size(); i++) {
+            if (uninitializedVars.get(i).name.equals(name)) {
+                uninitializedVars.get(i).consInitCount++;
+            }
+        }
+    }
+
     @Override
     public Void visitClassDeclaration(JavaParser.ClassDeclarationContext theClass) {
         // before entering the class, clear the list of vars
@@ -68,7 +77,6 @@ public class InstVarInitVisitor extends JavaParserBaseVisitor<Void> {
     }
 
     // this is called for each constructor
-
 	@Override
     public Void visitConstructorDeclaration(JavaParser.ConstructorDeclarationContext cons) {
         // only for pass 2
@@ -80,9 +88,27 @@ public class InstVarInitVisitor extends JavaParserBaseVisitor<Void> {
         // go through each line of the constructor and check if an inst var is written
 		for (JavaParser.BlockStatementContext blk : cons.block().blockStatement()) {
             // try to see it as an assignment statement
+            // TODO nested blocks??
+            // TODO what if we write one var twice in one cons?
             try {
-                    // TODO
-                    System.out.println("Saw a stmt");
+                for (JavaParser.ExpressionContext expr : blk.statement().expression()) {
+                    if (expr.ASSIGN() != null) {
+                        // try to get simple
+                        // var = assignments
+                        try {
+                            String lhs = expr.expression(0).primary().identifier().IDENTIFIER().getText();
+                            markWrite(lhs);
+                        } catch (NullPointerException e) {} // not a simple var= line
+                        
+                        // try to get this.var = assigments
+                        try {
+                            if ((expr.expression(0).DOT() != null) && (expr.expression(0).expression(0).primary().THIS() != null)) {
+                                String lhs = expr.expression(0).identifier().IDENTIFIER().getText();
+                                markWrite(lhs);
+                            }
+                        } catch (NullPointerException e) {} // not a this.var= line
+                    }
+                }
 
             } catch (NullPointerException e) {
                 // ignore this, not an assignment
