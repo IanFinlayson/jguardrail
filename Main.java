@@ -31,7 +31,8 @@ public class Main {
                 new IntDivideVisitor(),
                 new VoidConstructorVisitor(),
                 new ShadowCheckVisitor(),
-                new SelfSetVisitor()
+                new SelfSetVisitor(),
+                new InstVarInitVisitor()
             };
 
             // run all the checkers

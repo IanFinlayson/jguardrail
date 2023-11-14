@@ -2,7 +2,7 @@
 GRMRS := JavaLexer.g4 JavaParser.g4
 SRCS := Main.java IntDivideVisitor.java StringEqualsVisitor.java \
 		SwitchCheckVisitor.java VoidConstructorVisitor.java Warnings.java \
-		ShadowCheckVisitor.java SelfSetVisitor.java
+		ShadowCheckVisitor.java SelfSetVisitor.java InstVarInitVisitor.java
 
 # generated code files from antlr
 GEN := JavaLexer.java JavaParser.java JavaParserVisitor.java JavaParserBaseVisitor.java

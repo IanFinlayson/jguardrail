@@ -1,4 +1,5 @@
  - Touch up error message look (w/ line text?)
+ - sort warnings by line number
 
 Errors left to check:
     InstVarInit.java
