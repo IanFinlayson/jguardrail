@@ -1,4 +1,3 @@
-
 import org.antlr.v4.runtime.CharStreams;
 import org.antlr.v4.runtime.CommonTokenStream;
 import org.antlr.v4.runtime.tree.ParseTree;
@@ -13,7 +12,7 @@ public class Main {
             JavaLexer lexer = null;
             try {
                 lexer = new JavaLexer(CharStreams.fromFileName(args[i]));
-                Warnings.setFileName(args[i]);
+                Warnings.setupWarnings(args[i]);
             } catch (Exception e) {
                 System.out.println("Could not open '" + args[i] + "' for reading.");
                 return;
@@ -39,6 +38,9 @@ public class Main {
             for (JavaParserBaseVisitor checker : checkers) {
                 checker.visit(tree);
             }
+            
+            // print the warnings accrued
+            Warnings.printWarnings();
         }
     }
 }
