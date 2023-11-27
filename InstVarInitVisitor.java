@@ -1,10 +1,12 @@
 import java.util.ArrayList;
+import java.util.Stack;
+import java.util.Set;
+import java.util.HashSet;
 import java.util.List;
-    
+   
 // we need to check for instance variable declarations
 // we keep a list of those that have not been init'd inline
 // we also check the constructors to see if they do it or not
-
 public class InstVarInitVisitor extends JavaParserBaseVisitor<Void> {
     // we store these for each instance var
     class InstVar {
@@ -20,26 +22,28 @@ public class InstVarInitVisitor extends JavaParserBaseVisitor<Void> {
     }
 
     // would be ironic if we forgot to init these lol
-    private ArrayList<InstVar> uninitializedVars = new ArrayList<>();
-    private int numConstructors = 0;
+    private Stack<ArrayList<InstVar>> uninitializedVars = new Stack<>();
+    private Stack<Integer> numConstructors = new Stack<>();
     
     // we make two passes: one to peep the inst vars and another for constructors
-    // could be that constructors come before inst. vars
+    // this is since it could be that constructors come before inst. vars
     private int pass = 1;
 
     // mark a variable as being set to sth in a constructor
     private void markWrite(String name) {
-        for (int i = 0; i < uninitializedVars.size(); i++) {
-            if (uninitializedVars.get(i).name.equals(name)) {
-                uninitializedVars.get(i).consInitCount++;
+        for (int i = 0; i < uninitializedVars.peek().size(); i++) {
+            if (uninitializedVars.peek().get(i).name.equals(name)) {
+                uninitializedVars.peek().get(i).consInitCount++;
             }
         }
     }
 
     @Override
     public Void visitClassDeclaration(JavaParser.ClassDeclarationContext theClass) {
-        // before entering the class, clear the list of vars
-        uninitializedVars.clear();
+        // push new lists of vars, and num constructors -- stack is used here so nested
+        // classes are handled correctly
+        uninitializedVars.push(new ArrayList<>());
+        numConstructors.push(0);
         
         // run through the class members to find all the instance variables first
         visit(theClass.classBody());
@@ -49,11 +53,16 @@ public class InstVarInitVisitor extends JavaParserBaseVisitor<Void> {
         visit(theClass.classBody());
 
         // now we know what was missed
-        for (InstVar v : uninitializedVars) {
-            if (v.consInitCount < numConstructors) {
+        for (InstVar v : uninitializedVars.peek()) {
+            if (v.consInitCount < numConstructors.peek() || numConstructors.peek() == 0) {
                 Warnings.warn("instance variable " + v.name + " was not initialized inline nor in all constructors", v.line);
             }
         }
+
+        // pop this set of things
+        uninitializedVars.pop();
+        numConstructors.pop();
+
         return null;
     }
 
@@ -70,7 +79,7 @@ public class InstVarInitVisitor extends JavaParserBaseVisitor<Void> {
 
             // if it doesn't contain an assign, throw it in the list
             if (var.ASSIGN() == null) {
-                uninitializedVars.add(new InstVar(name, decl.getStart().getLine()));
+                uninitializedVars.peek().add(new InstVar(name, decl.getStart().getLine()));
             }
         }
         return null;
@@ -83,43 +92,44 @@ public class InstVarInitVisitor extends JavaParserBaseVisitor<Void> {
         if (pass != 2) return null;
 
         // we've seen another constructor
-        numConstructors++;
+        int count = numConstructors.pop();
+        numConstructors.push(count + 1);
+        
+        // keep a set of vars written in this constructor -- we mark them only at end so
+        // that even if a inst var is written multiple times in a constructor, it will be
+        // only counted as once
+        Set<String> varsWritten = new HashSet<>();
 
         // go through each line of the constructor and check if an inst var is written
 		for (JavaParser.BlockStatementContext blk : cons.block().blockStatement()) {
-            // try to see it as an assignment statement
-            // TODO nested blocks??
-            // TODO what if we write one var twice in one cons?
+            // look for the assignment statements
             try {
                 for (JavaParser.ExpressionContext expr : blk.statement().expression()) {
                     if (expr.ASSIGN() != null) {
-                        // try to get simple
-                        // var = assignments
+                        // one way that these can be written to is straight up by name
                         try {
                             String lhs = expr.expression(0).primary().identifier().IDENTIFIER().getText();
-                            markWrite(lhs);
-                        } catch (NullPointerException e) {} // not a simple var= line
-                        
-                        // try to get this.var = assigments
+                            varsWritten.add(lhs);
+                        } catch (NullPointerException e) {}
+
+                        // the other way is as this. then a variable name
                         try {
                             if ((expr.expression(0).DOT() != null) && (expr.expression(0).expression(0).primary().THIS() != null)) {
                                 String lhs = expr.expression(0).identifier().IDENTIFIER().getText();
-                                markWrite(lhs);
+                                varsWritten.add(lhs);
                             }
-                        } catch (NullPointerException e) {} // not a this.var= line
+                        } catch (NullPointerException e) {}
                     }
                 }
-
-            } catch (NullPointerException e) {
-                // ignore this, not an assignment
-            }
+            } catch (NullPointerException e) {}
         }
-
-
+        
+        // mark each var written as written
+        for (String varname : varsWritten) {
+            markWrite(varname);
+        }
 
         return null;
     }
-
 }
-
 
