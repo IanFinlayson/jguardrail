@@ -1,8 +1,4 @@
  - Touch up error message look (w/ line text?)
  - test each one more fully
- - put better comments in each checker file
- - make it not give you parse errors if your java is just bad?
+ - put better comments at top of each checker file
 
-Errors left to check:
-    InstVarInit.java
-    

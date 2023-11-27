@@ -1,5 +1,6 @@
 import org.antlr.v4.runtime.CharStreams;
 import org.antlr.v4.runtime.CommonTokenStream;
+import org.antlr.v4.runtime.ConsoleErrorListener;
 import org.antlr.v4.runtime.tree.ParseTree;
 import org.antlr.v4.runtime.tree.ParseTreeWalker;
 
@@ -20,8 +21,15 @@ public class Main {
             CommonTokenStream tokens = new CommonTokenStream(lexer);
             JavaParser parser = new JavaParser(tokens);
             
+            // ignore warnings from the parse itself (these will be caught by real compiler)
+            lexer.removeErrorListener(ConsoleErrorListener.INSTANCE);
+            parser.removeErrorListener(ConsoleErrorListener.INSTANCE);
+            
             // do the parsing
             ParseTree tree = parser.compilationUnit();
+            if (tree == null) {
+                System.out.println("Couldn't parse at all!");
+            }
 
             // we make a list of all the checks we have
             JavaParserBaseVisitor checkers [] = {
