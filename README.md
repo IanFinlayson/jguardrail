@@ -16,9 +16,6 @@ The ones currently caught by jwarn are:
 5. Shadowing an instance variable by making a local with the same name.
 6. Setting a variable to itself.  This is usually done when trying to
    set an instance variable to a constructor parameter with the same name.
-
-We plan to make jwarn also catch the following:
-
 7. Not initializing instance variables in their declaration nor in a
    constructor.
 

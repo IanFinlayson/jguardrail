@@ -55,7 +55,7 @@ public class InstVarInitVisitor extends JavaParserBaseVisitor<Void> {
         // now we know what was missed
         for (InstVar v : uninitializedVars.peek()) {
             if (v.consInitCount < numConstructors.peek() || numConstructors.peek() == 0) {
-                Warnings.warn("instance variable " + v.name + " was not initialized inline nor in all constructors", v.line);
+                Warnings.warn(Warnings.UNINITIALIZED, "instance variable " + v.name + " was not initialized inline nor in all constructors", v.line);
             }
         }
 

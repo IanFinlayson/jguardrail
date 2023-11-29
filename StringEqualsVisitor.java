@@ -12,7 +12,7 @@ public class StringEqualsVisitor extends JavaParserBaseVisitor<Void> {
             if ((lhs.primary() != null && lhs.primary().literal() != null && lhs.primary().literal().STRING_LITERAL() != null) ||
                 (rhs.primary() != null && rhs.primary().literal() != null && rhs.primary().literal().STRING_LITERAL() != null)) {
 
-                Warnings.warn("using the == operator between string literals", expr.getStart().getLine());
+                Warnings.warn(Warnings.STR_EQUALS, "using the == operator between string literals", expr.getStart().getLine());
             }
         }
         

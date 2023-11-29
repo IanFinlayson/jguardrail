@@ -67,7 +67,7 @@ public class ShadowCheckVisitor extends JavaParserBaseVisitor<Void> {
             // check if we've seen this one
             for (String instance : instances.peek()) {
                 if (name.equals(instance)) {
-                    Warnings.warn("local variable '" + name + "' shadowing instance variable with same name",
+                    Warnings.warn(Warnings.SHADOW_VARIABLE, "local variable '" + name + "' shadowing instance variable with same name",
                             decl.getStart().getLine());
                 }
             }
