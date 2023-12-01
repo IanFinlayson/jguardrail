@@ -12,3 +12,5 @@ JavaParserVisitor.java
 
 # gradle things
 .gradle
+build/
+src/generated/
