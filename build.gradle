@@ -1,0 +1,48 @@
+plugins {
+    id "java"
+    id "application"
+    id "antlr"
+}
+
+group = 'net.ianfinlayson'
+version = '0.1.0'
+mainClassName = 'net.ianfinlayson.jguardrail.Main'
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    antlr 'org.antlr:antlr4:4.13.1'
+    implementation 'org.antlr:antlr4-runtime:4.13.1'
+}
+
+// antlr stuff
+generateGrammarSource {
+    maxHeapSize = "64m"
+    arguments += [ "-visitor", 
+                   "-long-messages",
+                   "-package", "net.ianfinlayson.jguardrail" ]
+    outputDirectory = file("${projectDir}/src/generated/java")
+}
+
+clean {
+    delete file("${projectDir}/src/generated")
+}
+
+sourceSets {
+    generated{
+        java.srcDir "${projectDir}/src/generated/java/"
+    }
+
+    main {
+        java.srcDirs += "${projectDir}/src/generated/java/"
+    }
+}
+
+
+// make it runnable
+application {
+    mainClassName = 'net.ianfinlayson.jguardrail.Main'
+}
+

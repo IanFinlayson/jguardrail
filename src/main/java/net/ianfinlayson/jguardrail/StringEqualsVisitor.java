@@ -1,3 +1,5 @@
+package net.ianfinlayson.jguardrail;
+
 import java.util.List;
 
 public class StringEqualsVisitor extends JavaParserBaseVisitor<Void> {

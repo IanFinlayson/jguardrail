@@ -1,3 +1,5 @@
+package net.ianfinlayson.jguardrail;
+
 // all warnings issued through a static method in this class
 // for consistency of presentation
 

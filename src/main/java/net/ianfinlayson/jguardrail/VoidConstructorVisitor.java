@@ -1,3 +1,5 @@
+package net.ianfinlayson.jguardrail;
+
 import java.util.Stack;
 
 public class VoidConstructorVisitor extends JavaParserBaseVisitor<Void> {

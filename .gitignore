@@ -1,8 +1,14 @@
 # general java stuff
 *.class
+*.jar
+
+# antlr generated things
 *.interp
 *.tokens
 JavaLexer.java
 JavaParser.java
 JavaParserBaseVisitor.java
 JavaParserVisitor.java
+
+# gradle things
+.gradle

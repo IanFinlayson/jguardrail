@@ -1,3 +1,4 @@
+package net.ianfinlayson.jguardrail;
 
 public class SelfSetVisitor extends JavaParserBaseVisitor<Void> {
     // we need to visit assignment statements to see if we are setting
