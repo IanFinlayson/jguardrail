@@ -1,5 +1,10 @@
 package net.ianfinlayson.jguardrail;
 
+// this  checker looks for constructors that are erroneously given a
+// return (typically but not necessarily void).  So what we actually
+// are looking for is a method with the same name as the class, which
+// likely was intended to be a constructor instead
+
 import java.util.Stack;
 
 public class VoidConstructorVisitor extends JavaParserBaseVisitor<Void> {

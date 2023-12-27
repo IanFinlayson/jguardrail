@@ -1,11 +1,11 @@
 package net.ianfinlayson.jguardrail;
 
-import java.util.List;
-import java.util.Stack;
-import java.util.ArrayList;
-
 // this checker looks for instance variables being shadowed by
-// local variable declarations in constructors or methods
+// local variable declarations in constructors or methods.
+// This happens when we mean to assign a variable, but put a
+// type before it, accidentally creating a new local with the
+// same name -- we don't do this for parameters which is a common
+// practice, but only new locals
 
 // we basically treewalk each class to look for two things:
 // 1. all the instance vars to remember their names
@@ -19,6 +19,10 @@ import java.util.ArrayList;
 // we enforce this being done in two passes to ensure that it works
 // no matter where the instance vars are declared (we can't assume
 // they are all at the top)
+
+import java.util.List;
+import java.util.Stack;
+import java.util.ArrayList;
 
 public class ShadowCheckVisitor extends JavaParserBaseVisitor<Void> {
 

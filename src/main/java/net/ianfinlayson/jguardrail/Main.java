@@ -1,5 +1,8 @@
 package net.ianfinlayson.jguardrail;
 
+// main driver class for this system
+// we basically take every file given in argv and apply every checker to each
+
 import org.antlr.v4.runtime.CharStreams;
 import org.antlr.v4.runtime.CommonTokenStream;
 import org.antlr.v4.runtime.ConsoleErrorListener;
@@ -7,7 +10,6 @@ import org.antlr.v4.runtime.tree.ParseTree;
 import org.antlr.v4.runtime.tree.ParseTreeWalker;
 
 public class Main {
-
     public static void main(String[] args) {
         // for each input file given to us
         for (int i = 0; i < args.length; i++) {

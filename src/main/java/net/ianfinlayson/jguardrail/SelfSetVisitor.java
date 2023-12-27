@@ -1,10 +1,14 @@
 package net.ianfinlayson.jguardrail;
 
+// here we are checking for code that sets an identifier to itself
+// this most often happens in code when in a constructor with code
+// like this:
+// public Thing(int var) {
+//     var = var;
+// }
+// here we meant to assign the instance var to the constructor parameter
+
 public class SelfSetVisitor extends JavaParserBaseVisitor<Void> {
-    // we need to visit assignment statements to see if we are setting
-    // something equal to itself
-
-
 	@Override
     public Void visitExpression(JavaParser.ExpressionContext expr) {
         if(expr.ASSIGN() != null) {

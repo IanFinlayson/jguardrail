@@ -1,11 +1,17 @@
 package net.ianfinlayson.jguardrail;
 
+// this checker scans for the instance variables of a class and makes
+// sure each one is either (a) initialized inline or (b) initialized
+// in every constructor of the class.  This is perhaps arguable since
+// (unlike some languages) Java has defined default values.  But many
+// student bugs come from not initializing variables properly
+
 import java.util.ArrayList;
 import java.util.Stack;
 import java.util.Set;
 import java.util.HashSet;
 import java.util.List;
-   
+
 // we need to check for instance variable declarations
 // we keep a list of those that have not been init'd inline
 // we also check the constructors to see if they do it or not
@@ -15,7 +21,7 @@ public class InstVarInitVisitor extends JavaParserBaseVisitor<Void> {
         public String name;
         public int line;
         public int consInitCount;
-        
+
         public InstVar(String name, int line) {
             this.name = name;
             this.line = line;
@@ -26,7 +32,7 @@ public class InstVarInitVisitor extends JavaParserBaseVisitor<Void> {
     // would be ironic if we forgot to init these lol
     private Stack<ArrayList<InstVar>> uninitializedVars = new Stack<>();
     private Stack<Integer> numConstructors = new Stack<>();
-    
+
     // we make two passes: one to peep the inst vars and another for constructors
     // this is since it could be that constructors come before inst. vars
     private int pass = 1;
@@ -46,7 +52,7 @@ public class InstVarInitVisitor extends JavaParserBaseVisitor<Void> {
         // classes are handled correctly
         uninitializedVars.push(new ArrayList<>());
         numConstructors.push(0);
-        
+
         // run through the class members to find all the instance variables first
         visit(theClass.classBody());
 
@@ -96,7 +102,7 @@ public class InstVarInitVisitor extends JavaParserBaseVisitor<Void> {
         // we've seen another constructor
         int count = numConstructors.pop();
         numConstructors.push(count + 1);
-        
+
         // keep a set of vars written in this constructor -- we mark them only at end so
         // that even if a inst var is written multiple times in a constructor, it will be
         // only counted as once
@@ -125,7 +131,7 @@ public class InstVarInitVisitor extends JavaParserBaseVisitor<Void> {
                 }
             } catch (NullPointerException e) {}
         }
-        
+
         // mark each var written as written
         for (String varname : varsWritten) {
             markWrite(varname);

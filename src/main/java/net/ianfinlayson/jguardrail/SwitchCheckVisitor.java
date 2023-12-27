@@ -1,5 +1,10 @@
 package net.ianfinlayson.jguardrail;
 
+// this checker looks for switch cases that do not have a break
+// statement, thus falling through to the next case.  There are
+// some cases (lol) where this is intentional, but is usually
+// a mistake for beginners
+
 import java.util.List;
 
 public class SwitchCheckVisitor extends JavaParserBaseVisitor<Void> {

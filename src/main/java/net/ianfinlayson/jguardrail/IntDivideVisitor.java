@@ -1,12 +1,13 @@
 package net.ianfinlayson.jguardrail;
 
+// this checker looks for places in code where we divide two integer literals that
+// do not actually divide evenly.  For example if we have something like
+// var1 = var2 * (1/2);
+// this of course results in a 0 value since the division is truncated
+    
 import java.util.List;
 
 public class IntDivideVisitor extends JavaParserBaseVisitor<Void> {
-
-
-    // hook into the antlr visitor system to catch dividing two integers by each other that are not
-    // actually divisble -- especially things like (1/2)
     @Override
     public Void visitExpression(JavaParser.ExpressionContext expr) {
 

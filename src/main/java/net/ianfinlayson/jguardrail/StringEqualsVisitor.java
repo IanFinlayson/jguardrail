@@ -1,5 +1,9 @@
 package net.ianfinlayson.jguardrail;
 
+// this checker looks for using the == operator to compare something
+// with a string literal.  Using the .equals method is prefered since
+// that checks for actual equality as opposed to identity
+
 import java.util.List;
 
 public class StringEqualsVisitor extends JavaParserBaseVisitor<Void> {
