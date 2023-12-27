@@ -4,7 +4,7 @@ package net.ianfinlayson.jguardrail;
 // do not actually divide evenly.  For example if we have something like
 // var1 = var2 * (1/2);
 // this of course results in a 0 value since the division is truncated
-    
+
 import java.util.List;
 
 public class IntDivideVisitor extends JavaParserBaseVisitor<Void> {

@@ -28,20 +28,20 @@ public class ShadowCheckVisitor extends JavaParserBaseVisitor<Void> {
 
     private Stack<List<String>> instances = new Stack<>();
     private int pass = 1;
-    
+
     @Override
     public Void visitClassDeclaration(JavaParser.ClassDeclarationContext theClass) {
         // push a stack frame
         instances.push(new ArrayList<String>());
-        
+
         // do pass 1 (collecting inst vars)
         pass = 1;
         visit(theClass.classBody());
-        
+
         // do pass 2 (check for shadows)
         pass = 2;
         visit(theClass.classBody());
-        
+
         // pop the stack and return
         instances.pop();
         return null;

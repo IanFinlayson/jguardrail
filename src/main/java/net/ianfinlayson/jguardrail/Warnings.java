@@ -32,7 +32,7 @@ public class Warnings {
             this.line = line;
             this.code = code;
         }
-        
+
         public int compareTo(Warning other) {
             return line - other.line;
         }
@@ -46,15 +46,15 @@ public class Warnings {
         Warnings.javaFile = javaFile;
         warnings.clear();
     }
-    
+
     public static void warn(int code, String message, int line) {
         warnings.add(new Warning(code, message, line));
     }
-    
+
     public static void printWarnings() {
         // sort them by line number
         Collections.sort(warnings);
-        
+
         // we also log them to a file, unless the logFile name is empty
         PrintWriter pw = null;
         if (logFile != "") {
@@ -69,7 +69,7 @@ public class Warnings {
         for (Warning w : warnings) {
             // print it to the screen for the user
             System.out.println(javaFile + ":" + w.line + " " + w.message);
-            
+
             // log it, if we can
             if (pw != null) {
                 try {
@@ -77,7 +77,7 @@ public class Warnings {
                 } catch (Exception e) {}
             }
         }
-        
+
         // close the file if we made one
         if (pw != null) {
             pw.close();

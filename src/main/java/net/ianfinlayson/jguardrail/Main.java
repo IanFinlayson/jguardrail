@@ -24,11 +24,11 @@ public class Main {
             }
             CommonTokenStream tokens = new CommonTokenStream(lexer);
             JavaParser parser = new JavaParser(tokens);
-            
+
             // ignore warnings from the parse itself (these will be caught by real compiler)
             lexer.removeErrorListener(ConsoleErrorListener.INSTANCE);
             parser.removeErrorListener(ConsoleErrorListener.INSTANCE);
-            
+
             // do the parsing
             ParseTree tree = parser.compilationUnit();
             if (tree == null) {
@@ -50,7 +50,7 @@ public class Main {
             for (JavaParserBaseVisitor checker : checkers) {
                 checker.visit(tree);
             }
-            
+
             // print the warnings accrued
             Warnings.printWarnings();
         }

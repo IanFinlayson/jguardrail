@@ -10,7 +10,7 @@ public class StringEqualsVisitor extends JavaParserBaseVisitor<Void> {
     // hook into the antlr visitor system to catch using == with strings
     @Override
     public Void visitExpression(JavaParser.ExpressionContext expr) {
-       
+
         if ((expr.EQUAL() != null) || (expr.NOTEQUAL() != null)) {
             JavaParser.ExpressionContext lhs = expr.expression(0), rhs = expr.expression(1);
 
@@ -21,7 +21,7 @@ public class StringEqualsVisitor extends JavaParserBaseVisitor<Void> {
                 Warnings.warn(Warnings.STR_EQUALS, "using the == operator between string literals", expr.getStart().getLine());
             }
         }
-        
+
         return visitChildren(expr);
     }
 }
