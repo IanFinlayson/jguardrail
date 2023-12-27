@@ -6,7 +6,7 @@ the javac compiler does, even with warnings enabled.  The potential errors that
 jwarn looks for were chosen based on years of seeing the mistakes that beginning
 computer science students make when using Java.
 
-The ones currently caught by jwarn are:
+The ones currently caught by jguardrail are:
 1. Dividing two integer constants that do not divide evenly, such as having
    (1/2) or (9/5) as part of an arithmetic instruction.
 2. Using == to compare a String variable with a literal string value.

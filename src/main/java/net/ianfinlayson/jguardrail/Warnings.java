@@ -40,7 +40,7 @@ public class Warnings {
 
     private static ArrayList<Warning> warnings = new ArrayList<>();
     private static String javaFile = "";
-    private static String logFile = "/home/ifinlay/jguardrail-log.csv";
+    private static String logFile = "/home/faculty/ifinlay/jguardrail-log.csv";
 
     public static void setupWarnings(String javaFile) {
         Warnings.javaFile = javaFile;
