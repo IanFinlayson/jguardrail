@@ -1,9 +1,4 @@
 New goals for jguardrail:
-    - missing braces for if and while
-      if (a < b)
-          System.out.println("something")
-
-    - Disallow incorrect indentation
-
-    - Maybe also missing "this." before instance vars???
+    - Disallow incorrect indentation!
+    a big task since it will involve the lexer :/
 

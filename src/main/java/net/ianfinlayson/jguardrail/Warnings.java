@@ -23,6 +23,7 @@ public class Warnings {
     public static int UNINITIALIZED = 7;
     public static int TOSTRING = 8;
     public static int EMPTY_CONTROL = 9;
+    public static int MISSING_BRACES = 10;
 
     static class Warning implements Comparable<Warning> {
         public String message;
