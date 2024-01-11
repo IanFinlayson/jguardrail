@@ -22,6 +22,8 @@ The ones currently caught by jguardrail are:
    instead.
 9. Loops or if statements whose bodies consist of just a semi-colon.  Probable
    that the semi-colon is a mistake.
+10. Missing curly braces on a loop or if body.  These are discouraged by most
+   and can lead to errors when maintaining code.
 
 None of these mistakes are caught by the javac compiler.  If we tell javac to
 give us more warnings by passing "-Xlint:all", then it does give a warning for
