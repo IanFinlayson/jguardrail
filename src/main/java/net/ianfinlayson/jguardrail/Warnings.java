@@ -54,7 +54,11 @@ public class Warnings {
         warnings.add(new Warning(code, message, line));
     }
 
-    public static void printWarnings() {
+    public static boolean printWarnings() {
+        if (warnings.size() == 0) {
+            return false;
+        }
+
         // sort them by line number
         Collections.sort(warnings);
 
@@ -85,6 +89,8 @@ public class Warnings {
         if (pw != null) {
             pw.close();
         }
+        
+        return true;
     }
 }
 

@@ -11,6 +11,8 @@ import org.antlr.v4.runtime.tree.ParseTreeWalker;
 
 public class Main {
     public static void main(String[] args) {
+        boolean warned = false;
+
         // for each input file given to us
         for (int i = 0; i < args.length; i++) {
             // set up streams
@@ -53,7 +55,16 @@ public class Main {
             }
 
             // print the warnings accrued
-            Warnings.printWarnings();
+            if (Warnings.printWarnings()) {
+                warned = true;
+            }
+        }
+    
+        // use the exit code to indicate if warnings were given
+        if (warned) {
+            System.exit(1);
+        } else {
+            System.exit(0);
         }
     }
 }
