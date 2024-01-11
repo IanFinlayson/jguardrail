@@ -1,13 +1,15 @@
 package net.ianfinlayson.jguardrail;
 
-// this  checker looks for constructors that are erroneously given a
-// return (typically but not necessarily void).  So what we actually
-// are looking for is a method with the same name as the class, which
-// likely was intended to be a constructor instead
+// this  checker looks for method names that indicate likely issues these are:
+//
+// 1. methods with the same name as the class they are in.  these are more than
+// likely meant to be constructors but were mistakenly given a return type
+//
+// 2. methods named "tostring" which were likely meant to be "toString" instead
 
 import java.util.Stack;
 
-public class VoidConstructorVisitor extends JavaParserBaseVisitor<Void> {
+public class MethodNameVisitor extends JavaParserBaseVisitor<Void> {
     // we keep track of the name of the class we are in to make sure
     // we don't use it for method names (which indicates sth that should be
     // a constructor!)
@@ -24,15 +26,18 @@ public class VoidConstructorVisitor extends JavaParserBaseVisitor<Void> {
         return null;
     }
 
-    // catch method declarations crucially for this, it does NOT match constructors
-    // which are separate in the grammar
+    // catch method declarations so we can check their name
     @Override
     public Void visitMethodDeclaration(JavaParser.MethodDeclarationContext method) {
         // get the name of the method
         String name = method.identifier().IDENTIFIER().getText();
 
         if (name.equals(className.peek())) {
-            Warnings.warn(Warnings.VOID_CONSTRUCTOR, "regular method with name matching class name", method.getStart().getLine());
+            Warnings.warn(Warnings.VOID_CONSTRUCTOR, "regular method with name matching class name, constructors have no return types", method.getStart().getLine());
+        }
+        
+        else if (name.equals("tostring")) {
+            Warnings.warn(Warnings.TOSTRING, "method named 'tostring', did you mean 'toString' instead?", method.getStart().getLine());
         }
 
         return null;

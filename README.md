@@ -18,6 +18,10 @@ The ones currently caught by jguardrail are:
    set an instance variable to a constructor parameter with the same name.
 7. Not initializing instance variables in their declaration nor in all
    constructors.
+8. Naming a method 'tostring()' which was probably meant to be 'toString()'
+   instead.
+9. Loops or if statements whose bodies consist of just a semi-colon.  Probable
+   that the semi-colon is a mistake.
 
 None of these mistakes are caught by the javac compiler.  If we tell javac to
 give us more warnings by passing "-Xlint:all", then it does give a warning for

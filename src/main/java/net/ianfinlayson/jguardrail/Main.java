@@ -40,10 +40,11 @@ public class Main {
                 new SwitchCheckVisitor(),
                 new StringEqualsVisitor(),
                 new IntDivideVisitor(),
-                new VoidConstructorVisitor(),
+                new MethodNameVisitor(),
                 new ShadowCheckVisitor(),
                 new SelfSetVisitor(),
-                new InstVarInitVisitor()
+                new InstVarInitVisitor(),
+                new ControlStructureVisitor()
             };
 
             // run all the checkers

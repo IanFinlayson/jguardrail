@@ -21,6 +21,8 @@ public class Warnings {
     public static int SHADOW_VARIABLE = 5;
     public static int SELF_ASSIGN = 6;
     public static int UNINITIALIZED = 7;
+    public static int TOSTRING = 8;
+    public static int EMPTY_CONTROL = 9;
 
     static class Warning implements Comparable<Warning> {
         public String message;
@@ -40,7 +42,7 @@ public class Warnings {
 
     private static ArrayList<Warning> warnings = new ArrayList<>();
     private static String javaFile = "";
-    private static String logFile = "/home/faculty/ifinlay/jguardrail-log.csv";
+    private static String logFile = "/usr/local/jguardrail-0.1.0/jguardrail-log.csv";
 
     public static void setupWarnings(String javaFile) {
         Warnings.javaFile = javaFile;
