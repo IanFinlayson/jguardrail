@@ -51,6 +51,7 @@ public class ShadowCheckVisitor extends JavaParserBaseVisitor<Void> {
     @Override
     public Void visitFieldDeclaration(JavaParser.FieldDeclarationContext decl) {
         if (pass != 1) return null;
+        if (instances.empty()) return null;
 
         List<JavaParser.VariableDeclaratorContext> vars = decl.variableDeclarators().variableDeclarator();
         for (JavaParser.VariableDeclaratorContext var : vars) {
@@ -65,6 +66,7 @@ public class ShadowCheckVisitor extends JavaParserBaseVisitor<Void> {
 	@Override
     public Void visitLocalVariableDeclaration(JavaParser.LocalVariableDeclarationContext decl) {
         if (pass != 2) return null;
+        if (instances.empty()) return null;
 
         List<JavaParser.VariableDeclaratorContext> vars = decl.variableDeclarators().variableDeclarator();
         for (JavaParser.VariableDeclaratorContext var : vars) {

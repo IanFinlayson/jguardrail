@@ -26,19 +26,13 @@ public class MethodNameVisitor extends JavaParserBaseVisitor<Void> {
         return null;
     }
     
-    // also look for enum declarations since those can have methods too!  we don't
-    // do the checks for those though, since the problem can't happen in a enum
-    @Override public Void visitEnumDeclaration(JavaParser.EnumDeclarationContext theEnum) {
-        return null;
-    }
-
     // catch method declarations so we can check their name
     @Override
     public Void visitMethodDeclaration(JavaParser.MethodDeclarationContext method) {
         // get the name of the method
         String name = method.identifier().IDENTIFIER().getText();
 
-        if (name.equals(className.peek())) {
+        if (!className.empty() && name.equals(className.peek())) {
             Warnings.warn(Warnings.VOID_CONSTRUCTOR, "regular method with name matching class name, constructors have no return types", method.getStart().getLine());
         }
         

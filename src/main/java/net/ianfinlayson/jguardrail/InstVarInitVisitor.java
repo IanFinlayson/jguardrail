@@ -79,6 +79,7 @@ public class InstVarInitVisitor extends JavaParserBaseVisitor<Void> {
     public Void visitFieldDeclaration(JavaParser.FieldDeclarationContext decl) {
         // only for pass 1
         if (pass != 1) return null;
+        if (uninitializedVars.empty()) return null;
 
         List<JavaParser.VariableDeclaratorContext> vars = decl.variableDeclarators().variableDeclarator();
         for (JavaParser.VariableDeclaratorContext var : vars) {
