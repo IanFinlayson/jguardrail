@@ -25,6 +25,12 @@ public class MethodNameVisitor extends JavaParserBaseVisitor<Void> {
         className.pop();
         return null;
     }
+    
+    // also look for enum declarations since those can have methods too!  we don't
+    // do the checks for those though, since the problem can't happen in a enum
+    @Override public Void visitEnumDeclaration(JavaParser.EnumDeclarationContext theEnum) {
+        return null;
+    }
 
     // catch method declarations so we can check their name
     @Override

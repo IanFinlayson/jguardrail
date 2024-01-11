@@ -1,6 +1,7 @@
 # general java stuff
 *.class
 *.jar
+*.swp
 
 # antlr generated things
 *.interp
