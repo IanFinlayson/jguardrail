@@ -80,7 +80,10 @@ public class ShadowCheckVisitor extends JavaParserBaseVisitor<Void> {
                             decl.getStart().getLine());
                     }
                 }
-            } catch (Exception e) {}
+            } catch (Exception e) {
+                // we can have no identifiers if variables are named things that the lexer recognizes as
+                // contextual keywords, such as "open"  Should that be a warning in and of itself?
+            }
         }
 
         return null;

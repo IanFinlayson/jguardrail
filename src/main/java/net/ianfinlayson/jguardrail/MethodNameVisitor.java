@@ -40,7 +40,10 @@ public class MethodNameVisitor extends JavaParserBaseVisitor<Void> {
             else if (name.equals("tostring")) {
                 Warnings.warn(Warnings.TOSTRING, "method named 'tostring', did you mean 'toString' instead?", method.getStart().getLine());
             }
-        } catch (Exception e) {}
+        } catch (Exception e) {
+            // we can miss the method name if it is one of the words matched by the lexer as a contextual
+            // keyword, such as "open" -- should we fix this?
+        }
 
         return null;
     }
