@@ -30,17 +30,15 @@ public class MethodNameVisitor extends JavaParserBaseVisitor<Void> {
     @Override
     public Void visitMethodDeclaration(JavaParser.MethodDeclarationContext method) {
         // get the name of the method
-        try {
-            String name = method.identifier().IDENTIFIER().getText();
+        String name = method.identifier().IDENTIFIER().getText();
 
-            if (!className.empty() && name.equals(className.peek())) {
-                Warnings.warn(Warnings.VOID_CONSTRUCTOR, "regular method with name matching class name, constructors have no return types", method.getStart().getLine());
-            }
-            
-            else if (name.equals("tostring")) {
-                Warnings.warn(Warnings.TOSTRING, "method named 'tostring', did you mean 'toString' instead?", method.getStart().getLine());
-            }
-        } catch (Exception e) {}
+        if (!className.empty() && name.equals(className.peek())) {
+            Warnings.warn(Warnings.VOID_CONSTRUCTOR, "regular method with name matching class name, constructors have no return types", method.getStart().getLine());
+        }
+        
+        else if (name.equals("tostring")) {
+            Warnings.warn(Warnings.TOSTRING, "method named 'tostring', did you mean 'toString' instead?", method.getStart().getLine());
+        }
 
         return null;
     }

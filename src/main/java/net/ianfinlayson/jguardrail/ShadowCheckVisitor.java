@@ -70,17 +70,15 @@ public class ShadowCheckVisitor extends JavaParserBaseVisitor<Void> {
 
         List<JavaParser.VariableDeclaratorContext> vars = decl.variableDeclarators().variableDeclarator();
         for (JavaParser.VariableDeclaratorContext var : vars) {
-            try {
-                String name = var.variableDeclaratorId().identifier().IDENTIFIER().getText();
+            String name = var.variableDeclaratorId().identifier().IDENTIFIER().getText();
 
-                // check if we've seen this one
-                for (String instance : instances.peek()) {
-                    if (name.equals(instance)) {
-                        Warnings.warn(Warnings.SHADOW_VARIABLE, "local variable '" + name + "' shadowing instance variable with same name",
+            // check if we've seen this one
+            for (String instance : instances.peek()) {
+                if (name.equals(instance)) {
+                    Warnings.warn(Warnings.SHADOW_VARIABLE, "local variable '" + name + "' shadowing instance variable with same name",
                             decl.getStart().getLine());
-                    }
                 }
-            } catch (Exception e) {}
+            }
         }
 
         return null;
