@@ -1,3 +1,5 @@
+Compare to existing IDE / linter tools.
+
 New goals for jguardrail:
     - Disallow incorrect indentation!
     a big task since it will involve the lexer :/

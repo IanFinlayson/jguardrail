@@ -1,7 +1,7 @@
 package net.ianfinlayson.jguardrail;
 
 // main driver class for this system
-// we basically take every file given in argv and apply every checker to each
+// we basically take every .java file given in argv and apply every checker to each
 
 import org.antlr.v4.runtime.CharStreams;
 import org.antlr.v4.runtime.CommonTokenStream;
@@ -15,6 +15,11 @@ public class Main {
 
         // for each input file given to us
         for (int i = 0; i < args.length; i++) {
+            // if it does not end in .java, skip it
+            if (!args[i].contains(".java")) {
+                continue;
+            }
+
             // set up streams
             JavaLexer lexer = null;
             try {
@@ -27,14 +32,25 @@ public class Main {
             CommonTokenStream tokens = new CommonTokenStream(lexer);
             JavaParser parser = new JavaParser(tokens);
 
-            // ignore warnings from the parse itself (these will be caught by real compiler)
+            // do not not do the default thing on errors (printing them out)
+            // instead, add our own whose job it is to simply record if there are errors
+            // if there are, jguardrail will not do any analysis (leaving them for javac)
             lexer.removeErrorListener(ConsoleErrorListener.INSTANCE);
             parser.removeErrorListener(ConsoleErrorListener.INSTANCE);
+            
+            ErrorListener el = new ErrorListener();
+            lexer.addErrorListener(el);
+            parser.addErrorListener(el);
 
             // do the parsing
             ParseTree tree = parser.compilationUnit();
             if (tree == null) {
                 System.out.println("Couldn't parse at all!");
+            }
+            
+            // if there were any errors, we bail now
+            if (el.errorsExist()) {
+                System.exit(0);
             }
 
             // we make a list of all the checks we have
@@ -51,7 +67,15 @@ public class Main {
 
             // run all the checkers
             for (JavaParserBaseVisitor checker : checkers) {
-                checker.visit(tree);
+                // there have been some cases of a checker barfing up
+                // exceptions, confusing students.  So we ignore any
+                // errors not caught within the checker itself, but
+                // do log them so I can investigate
+                try {
+                    checker.visit(tree);
+                } catch (Exception e) {
+                    Warnings.fail();
+                }
             }
 
             // print the warnings accrued

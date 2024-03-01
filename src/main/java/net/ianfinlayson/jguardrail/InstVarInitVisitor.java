@@ -85,7 +85,7 @@ public class InstVarInitVisitor extends JavaParserBaseVisitor<Void> {
         for (JavaParser.VariableDeclaratorContext var : vars) {
             // get the name
             String name = var.variableDeclaratorId().identifier().IDENTIFIER().getText();
-
+            
             // if it doesn't contain an assign, throw it in the list
             if (var.ASSIGN() == null) {
                 uninitializedVars.peek().add(new InstVar(name, decl.getStart().getLine()));
@@ -103,7 +103,7 @@ public class InstVarInitVisitor extends JavaParserBaseVisitor<Void> {
         // we've seen another constructor
         int count = numConstructors.pop();
         numConstructors.push(count + 1);
-
+        
         // keep a set of vars written in this constructor -- we mark them only at end so
         // that even if a inst var is written multiple times in a constructor, it will be
         // only counted as once

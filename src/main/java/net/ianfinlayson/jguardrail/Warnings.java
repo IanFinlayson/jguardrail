@@ -92,6 +92,19 @@ public class Warnings {
         
         return true;
     }
+    
+    public static void fail() {
+        PrintWriter pw = null;
+        if (logFile != "") {
+            try {
+                pw = new PrintWriter(new FileOutputStream(new File(logFile), true));
+                pw.println("Fatal error in file " + javaFile + "belonging to " + System.getProperty("user.name") + "!");
+                pw.close();
+            } catch (Exception e) {
+                pw = null;
+            }
+        }
+    }
 }
 
 
