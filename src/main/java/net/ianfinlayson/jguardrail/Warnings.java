@@ -25,7 +25,7 @@ public class Warnings {
     public static int EMPTY_CONTROL = 9;
     public static int MISSING_BRACES = 10;
 
-    static class Warning implements Comparable<Warning> {
+    public static class Warning implements Comparable<Warning> {
         public String message;
         public int line;
         public int code;
@@ -44,6 +44,10 @@ public class Warnings {
     private static ArrayList<Warning> warnings = new ArrayList<>();
     private static String javaFile = "";
     private static String logFile = "/usr/local/jguardrail-0.1.0/jguardrail-log.csv";
+
+    public ArrayList<Warning> getWarnings() {
+        return warnings;
+    }
 
     public static void setupWarnings(String javaFile) {
         Warnings.javaFile = javaFile;
