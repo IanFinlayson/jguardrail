@@ -14,12 +14,12 @@ class Student {
         System.out.println(name + ":");
         for (Integer grade : grades);
         {
-            System.out.println(grade);
+            System.out.println("hi");
         }
     }
 }
 
-public class InstVarInit {
+public class EmptyLoop {
     public static void main(String args[]) {
         Student s1 = new Student("Bob Jones");
         s1.report();
