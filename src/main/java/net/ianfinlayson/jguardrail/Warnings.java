@@ -45,8 +45,12 @@ public class Warnings {
     private static String javaFile = "";
     private static String logFile = "/usr/local/jguardrail-0.1.0/jguardrail-log.csv";
 
-    public ArrayList<Warning> getWarnings() {
+    public static ArrayList<Warning> getWarnings() {
         return warnings;
+    }
+
+    public static String getFileName() {
+        return javaFile;
     }
 
     public static void setupWarnings(String javaFile) {
