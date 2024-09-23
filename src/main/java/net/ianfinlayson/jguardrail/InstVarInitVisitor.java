@@ -94,8 +94,59 @@ public class InstVarInitVisitor extends JavaParserBaseVisitor<Void> {
         return null;
     }
 
+    // called for each statement inside a constructor, this way we can catch assignments that take
+    // place inside ifs or switches or what-have-you
+    public void handleStatement(JavaParser.StatementContext stmt, Set<String> varsWritten) {
+        // if it's an if, recurse on sub-statement
+        if (stmt.IF() != null) {
+            for (JavaParser.StatementContext sub : stmt.statement()) {
+                handleStatement(sub, varsWritten);
+            }
+            return;
+        }
+
+        // if it's a switch also do
+        if (stmt.SWITCH() != null) {
+            for (JavaParser.SwitchBlockStatementGroupContext swblk : stmt.switchBlockStatementGroup()) {
+                for (JavaParser.BlockStatementContext blk : swblk.blockStatement()) {
+                    handleStatement(blk.statement(), varsWritten);
+                }
+            }
+            return;
+        }
+
+        // if it's a block, go through each statement in it
+        if (stmt.block() != null) {
+		    for (JavaParser.BlockStatementContext blk : stmt.block().blockStatement()) {
+                handleStatement(blk.statement(), varsWritten);
+            }
+            return;
+        }
+
+        // otherwise look for the assignment statement here
+        try {
+            for (JavaParser.ExpressionContext expr : stmt.expression()) {
+                if (expr.ASSIGN() != null) {
+                    // one way that these can be written to is straight up by name
+                    try {
+                        String lhs = expr.expression(0).primary().identifier().IDENTIFIER().getText();
+                        varsWritten.add(lhs);
+                    } catch (NullPointerException e) {}
+
+                    // the other way is as this. then a variable name
+                    try {
+                        if ((expr.expression(0).DOT() != null) && (expr.expression(0).expression(0).primary().THIS() != null)) {
+                            String lhs = expr.expression(0).identifier().IDENTIFIER().getText();
+                            varsWritten.add(lhs);
+                        }
+                    } catch (NullPointerException e) {}
+                }
+            }
+        } catch (NullPointerException e) {}
+    }
+
     // this is called for each constructor
-	@Override
+    @Override
     public Void visitConstructorDeclaration(JavaParser.ConstructorDeclarationContext cons) {
         // only for pass 2
         if (pass != 2) return null;
@@ -103,34 +154,15 @@ public class InstVarInitVisitor extends JavaParserBaseVisitor<Void> {
         // we've seen another constructor
         int count = numConstructors.pop();
         numConstructors.push(count + 1);
-        
+
         // keep a set of vars written in this constructor -- we mark them only at end so
         // that even if a inst var is written multiple times in a constructor, it will be
         // only counted as once
         Set<String> varsWritten = new HashSet<>();
 
         // go through each line of the constructor and check if an inst var is written
-		for (JavaParser.BlockStatementContext blk : cons.block().blockStatement()) {
-            // look for the assignment statements
-            try {
-                for (JavaParser.ExpressionContext expr : blk.statement().expression()) {
-                    if (expr.ASSIGN() != null) {
-                        // one way that these can be written to is straight up by name
-                        try {
-                            String lhs = expr.expression(0).primary().identifier().IDENTIFIER().getText();
-                            varsWritten.add(lhs);
-                        } catch (NullPointerException e) {}
-
-                        // the other way is as this. then a variable name
-                        try {
-                            if ((expr.expression(0).DOT() != null) && (expr.expression(0).expression(0).primary().THIS() != null)) {
-                                String lhs = expr.expression(0).identifier().IDENTIFIER().getText();
-                                varsWritten.add(lhs);
-                            }
-                        } catch (NullPointerException e) {}
-                    }
-                }
-            } catch (NullPointerException e) {}
+        for (JavaParser.BlockStatementContext blk : cons.block().blockStatement()) {
+            handleStatement(blk.statement(), varsWritten);
         }
 
         // mark each var written as written
